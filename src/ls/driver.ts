@@ -3,6 +3,8 @@ import queries from './queries';
 import { IConnectionDriver, MConnectionExplorer, NSDatabase, ContextValue, Arg0 } from '@sqltools/types';
 import { v4 as generateId } from 'uuid';
 import { Database } from 'duckdb-async';
+import keywordsCompletion from './keywords';
+
 
 type DriverLib = any // fix this later?
 type DriverOptions = any;
@@ -66,10 +68,6 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
     await this.query('SELECT 1', {});
   }
 
-  /**
-   * This method is a helper to generate the connection explorer tree.
-   * it gets the child items based on current item
-   */
   public async getChildrenForItem({ item, parent }: Arg0<IConnectionDriver['getChildrenForItem']>) {
     switch (item.type) {
       case ContextValue.CONNECTION:
@@ -80,186 +78,32 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
         ];
       case ContextValue.TABLE:
       case ContextValue.VIEW:
-        let i = 0;
-        return <NSDatabase.IColumn[]>[{
-          database: 'fakedb',
-          label: `column${i++}`,
-          type: ContextValue.COLUMN,
-          dataType: 'faketype',
-          schema: 'fakeschema',
-          childType: ContextValue.NO_CHILD,
-          isNullable: false,
-          iconName: 'column',
-          table: parent,
-        },{
-          database: 'fakedb',
-          label: `column${i++}`,
-          type: ContextValue.COLUMN,
-          dataType: 'faketype',
-          schema: 'fakeschema',
-          childType: ContextValue.NO_CHILD,
-          isNullable: false,
-          iconName: 'column',
-          table: parent,
-        },{
-          database: 'fakedb',
-          label: `column${i++}`,
-          type: ContextValue.COLUMN,
-          dataType: 'faketype',
-          schema: 'fakeschema',
-          childType: ContextValue.NO_CHILD,
-          isNullable: false,
-          iconName: 'column',
-          table: parent,
-        },{
-          database: 'fakedb',
-          label: `column${i++}`,
-          type: ContextValue.COLUMN,
-          dataType: 'faketype',
-          schema: 'fakeschema',
-          childType: ContextValue.NO_CHILD,
-          isNullable: false,
-          iconName: 'column',
-          table: parent,
-        },{
-          database: 'fakedb',
-          label: `column${i++}`,
-          type: ContextValue.COLUMN,
-          dataType: 'faketype',
-          schema: 'fakeschema',
-          childType: ContextValue.NO_CHILD,
-          isNullable: false,
-          iconName: 'column',
-          table: parent,
-        }];
+        return this.queryResults(this.queries.fetchColumns(item as NSDatabase.ITable));
       case ContextValue.RESOURCE_GROUP:
         return this.getChildrenForGroup({ item, parent });
     }
     return [];
   }
 
-  /**
-   * This method is a helper to generate the connection explorer tree.
-   * It gets the child based on child types
-   */
   private async getChildrenForGroup({ parent, item }: Arg0<IConnectionDriver['getChildrenForItem']>) {
-    console.log({ item, parent });
     switch (item.childType) {
       case ContextValue.TABLE:
+        return this.queryResults(this.queries.fetchTables(parent as NSDatabase.ISchema));
       case ContextValue.VIEW:
-        let i = 0;
-        return <MConnectionExplorer.IChildItem[]>[{
-          database: 'fakedb',
-          label: `${item.childType}${i++}`,
-          type: item.childType,
-          schema: 'fakeschema',
-          childType: ContextValue.COLUMN,
-        },{
-          database: 'fakedb',
-          label: `${item.childType}${i++}`,
-          type: item.childType,
-          schema: 'fakeschema',
-          childType: ContextValue.COLUMN,
-        },
-        {
-          database: 'fakedb',
-          label: `${item.childType}${i++}`,
-          type: item.childType,
-          schema: 'fakeschema',
-          childType: ContextValue.COLUMN,
-        }];
+        return this.queryResults(this.queries.fetchViews(parent as NSDatabase.ISchema));
     }
     return [];
   }
 
-  /**
-   * This method is a helper for intellisense and quick picks.
-   */
-  public async searchItems(itemType: ContextValue, search: string, _extraParams: any = {}): Promise<NSDatabase.SearchableItem[]> {
+  public searchItems(itemType: ContextValue, search: string, extraParams: any = {}): Promise<NSDatabase.SearchableItem[]> {
     switch (itemType) {
       case ContextValue.TABLE:
-      case ContextValue.VIEW:
-        let j = 0;
-        return [{
-          database: 'fakedb',
-          label: `${search || 'table'}${j++}`,
-          type: itemType,
-          schema: 'fakeschema',
-          childType: ContextValue.COLUMN,
-        },{
-          database: 'fakedb',
-          label: `${search || 'table'}${j++}`,
-          type: itemType,
-          schema: 'fakeschema',
-          childType: ContextValue.COLUMN,
-        },
-        {
-          database: 'fakedb',
-          label: `${search || 'table'}${j++}`,
-          type: itemType,
-          schema: 'fakeschema',
-          childType: ContextValue.COLUMN,
-        }]
+        return this.queryResults(this.queries.searchTables({ search }));
       case ContextValue.COLUMN:
-        let i = 0;
-        return [
-          {
-            database: 'fakedb',
-            label: `${search || 'column'}${i++}`,
-            type: ContextValue.COLUMN,
-            dataType: 'faketype',
-            schema: 'fakeschema',
-            childType: ContextValue.NO_CHILD,
-            isNullable: false,
-            iconName: 'column',
-            table: 'fakeTable'
-          },{
-            database: 'fakedb',
-            label: `${search || 'column'}${i++}`,
-            type: ContextValue.COLUMN,
-            dataType: 'faketype',
-            schema: 'fakeschema',
-            childType: ContextValue.NO_CHILD,
-            isNullable: false,
-            iconName: 'column',
-            table: 'fakeTable'
-          },{
-            database: 'fakedb',
-            label: `${search || 'column'}${i++}`,
-            type: ContextValue.COLUMN,
-            dataType: 'faketype',
-            schema: 'fakeschema',
-            childType: ContextValue.NO_CHILD,
-            isNullable: false,
-            iconName: 'column',
-            table: 'fakeTable'
-          },{
-            database: 'fakedb',
-            label: `${search || 'column'}${i++}`,
-            type: ContextValue.COLUMN,
-            dataType: 'faketype',
-            schema: 'fakeschema',
-            childType: ContextValue.NO_CHILD,
-            isNullable: false,
-            iconName: 'column',
-            table: 'fakeTable'
-          },{
-            database: 'fakedb',
-            label: `${search || 'column'}${i++}`,
-            type: ContextValue.COLUMN,
-            dataType: 'faketype',
-            schema: 'fakeschema',
-            childType: ContextValue.NO_CHILD,
-            isNullable: false,
-            iconName: 'column',
-            table: 'fakeTable'
-          }
-        ];
+        return this.queryResults(this.queries.searchColumns({ search, ...extraParams }));
     }
-    return [];
   }
-
-  public getStaticCompletions: IConnectionDriver['getStaticCompletions'] = async () => {
-    return {};
+  public getStaticCompletions = async () => {
+    return keywordsCompletion;
   }
 }
