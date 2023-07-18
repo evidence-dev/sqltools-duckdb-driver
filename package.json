@@ -18,6 +18,7 @@
   "icon": "docs/images/duckdb-logo.png",
   "scripts": {
     "vscode:prepublish": "npm run compile",
+    "package": "vsce package",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./"
   },
