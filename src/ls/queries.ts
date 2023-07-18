@@ -10,11 +10,14 @@ const describeTable: IBaseQueries['describeTable'] = queryFactory`
 `;
 
 const fetchColumns: IBaseQueries['fetchColumns'] = queryFactory`
-SELECT C.name AS label,
+SELECT 
+  C.name AS label,
   C.*,
   C.type AS dataType,
   C."notnull" AS isNullable,
   C.pk AS isPk,
+  '${ContextValue.NO_CHILD}' as childType,
+  case when C.pk = 1 then 'pk' else null end as iconName,
   '${ContextValue.COLUMN}' as type
 FROM pragma_table_info('${p => p.label}') AS C
 ORDER BY cid ASC
