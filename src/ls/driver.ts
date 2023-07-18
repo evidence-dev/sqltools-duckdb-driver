@@ -2,49 +2,14 @@ import AbstractDriver from '@sqltools/base-driver';
 import queries from './queries';
 import { IConnectionDriver, MConnectionExplorer, NSDatabase, ContextValue, Arg0 } from '@sqltools/types';
 import { v4 as generateId } from 'uuid';
+import { Database } from 'duckdb-async';
 
-/**
- * set Driver lib to the type of your connection.
- * Eg for postgres:
- * import { Pool, PoolConfig } from 'pg';
- * ...
- * type DriverLib = Pool;
- * type DriverOptions = PoolConfig;
- *
- * This will give you completions iside of the library
- */
-type DriverLib = typeof fakeDbLib;
+type DriverLib = any // fix this later?
 type DriverOptions = any;
 
-/**
- * MOCKED DB DRIVER
- * THIS IS JUST AN EXAMPLE AND THE LINES BELOW SHOUDL BE REMOVED!
- */
-// import fakeDbLib from './mylib'; // this is what you should do
-const fakeDbLib = {
-  open: () => Promise.resolve(fakeDbLib),
-  query: (..._args: any[]) => {
-    const nResults = parseInt((Math.random() * 1000).toFixed(0));
-    const nCols = parseInt((Math.random() * 100).toFixed(0));
-    const colNames = [...new Array(nCols)].map((_, index) => `col${index}`);
-    const generateRow = () => {
-      const row = {};
-      colNames.forEach(c => {
-        row[c] = Math.random() * 1000;
-      });
-      return row;
-    }
-    const results = [...new Array(nResults)].map(generateRow);
-    return Promise.resolve([results]);
-  },
-  close: () => Promise.resolve(),
-};
 
 
-/* LINES ABOVE CAN BE REMOVED */
-
-
-export default class YourDriverClass extends AbstractDriver<DriverLib, DriverOptions> implements IConnectionDriver {
+export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOptions> implements IConnectionDriver {
 
   /**
    * If you driver depends on node packages, list it below on `deps` prop.
@@ -52,62 +17,44 @@ export default class YourDriverClass extends AbstractDriver<DriverLib, DriverOpt
    */
   public readonly deps: typeof AbstractDriver.prototype['deps'] = [{
     type: AbstractDriver.CONSTANTS.DEPENDENCY_PACKAGE,
-    name: 'lodash',
-    // version: 'x.x.x',
+    name: 'duckdb-async',
+    version: '0.8.1',
   }];
 
-
-  queries = queries;
-
-  /** if you need to require your lib in runtime and then
-   * use `this.lib.methodName()` anywhere and vscode will take care of the dependencies
-   * to be installed on a cache folder
-   **/
-  // private get lib() {
-  //   return this.requireDep('node-packge-name') as DriverLib;
-  // }
+  queries = queries;  
 
   public async open() {
     if (this.connection) {
       return this.connection;
-    }
-
-    this.needToInstallDependencies && await this.needToInstallDependencies();
-    /**
-     * open your connection here!!!
-     */
-
-    this.connection = fakeDbLib.open();
+    }  
+    try {
+        const db = Database.create(this.credentials.databaseFilePath);
+        this.connection=db
+      } catch (error) {
+        throw(error);
+      }
     return this.connection;
   }
 
   public async close() {
-    if (!this.connection) return Promise.resolve();
-    /**
-     * cose you connection here!!
-     */
-    await fakeDbLib.close();
     this.connection = null;
   }
 
-  public query: (typeof AbstractDriver)['prototype']['query'] = async (queries, opt = {}) => {
+  public query: (typeof AbstractDriver)['prototype']['query'] = async (query, opt = {}) => {
     const db = await this.open();
-    const queriesResults = await db.query(queries);
-    const resultsAgg: NSDatabase.IResult[] = [];
-    queriesResults.forEach(queryResult => {
-      resultsAgg.push({
-        cols: Object.keys(queryResult[0]),
-        connId: this.getId(),
-        messages: [{ date: new Date(), message: `Query ok with ${queriesResults.length} results`}],
-        results: queryResult,
-        query: queries.toString(),
-        requestId: opt.requestId,
+    const { requestId } = opt;
+    let resultsAgg: NSDatabase.IResult[] = [];
+      const rows = await db.all(query);
+      const messages = [];
+      resultsAgg.push(<NSDatabase.IResult>{
+        requestId,
         resultId: generateId(),
+        connId: this.getId(),
+        cols: rows && rows.length ? Object.keys(rows[0]) : [],
+        messages,
+        query: query[0], // hack
+        results: rows,
       });
-    });
-    /**
-     * write the method to execute queries here!!
-     */
     return resultsAgg;
   }
 

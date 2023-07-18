@@ -1,23 +1,29 @@
 {
-  "name": "driver-template",
-  "displayName": "Driver Template",
-  "description": "Driver Template to be used as base for new VSCode SQLTools drivers",
+  "name": "sqltools-duckdb-driver",
+  "displayName": "DuckDB Driver for SQLTools",
+  "description": "Run Queries and Explore your DuckDB Database in VSCode",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.42.0"
   },
-  "publisher": "mtxr",
+  "publisher": "Evidence",
   "license": "MIT",
-  "repository": {},
-  "bugs": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evidence-dev/sqltools-duckdb-driver"
+  },
+  "bugs": {
+    "url": "https://github.com/evidence-dev/sqltools-duckdb-driver/issues"
+  },
+  "icon": "docs/images/duckdb-logo.png",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./"
   },
-  "keywords": [
-    "driver-template",
-    "sqltools-driver"
+   "keywords": [
+    "sqltools-driver",
+    "duckdb"
   ],
   "categories": [
     "Programming Languages",
@@ -37,7 +43,10 @@
   "dependencies": {
     "@sqltools/base-driver": "latest",
     "@sqltools/types": "latest",
-    "uuid": "^7.0.2"
+    "@sqltools/util": "latest",
+    "uuid": "^7.0.2",
+    "duckdb-async": "0.8.1",
+    "duckdb": "0.8.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.5.5",

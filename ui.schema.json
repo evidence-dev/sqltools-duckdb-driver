@@ -1,4 +1,4 @@
 {
   "ui:order": ["database"],
-  "database": { "ui:widget": "file" }
+  "databaseFilePath": { "ui:widget": "file" }
 }
