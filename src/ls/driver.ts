@@ -2,11 +2,11 @@ import AbstractDriver from '@sqltools/base-driver';
 import queries from './queries';
 import { IConnectionDriver, MConnectionExplorer, NSDatabase, ContextValue, Arg0 } from '@sqltools/types';
 import { v4 as generateId } from 'uuid';
-import { Database } from 'duckdb-async';
+import { Database, OPEN_READONLY, OPEN_READWRITE  } from 'duckdb-async';
 import keywordsCompletion from './keywords';
 
 
-type DriverLib = any // fix this later?
+type DriverLib = Database // fix this later?
 type DriverOptions = any;
 
 
@@ -25,28 +25,33 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
 
   queries = queries;  
 
-  public async open() {
+  public async open(): Promise<Database> {
     if (this.connection) {
       return this.connection;
     }  
     try {
-        const db = Database.create(this.credentials.databaseFilePath);
-        this.connection=db
-      } catch (error) {
-        throw(error);
-      }
-    return this.connection;
+      const mode = this.credentials.databaseFilePath !== ':memory:' ? OPEN_READONLY : OPEN_READWRITE;  
+      const db = Database.create(this.credentials.databaseFilePath, mode);
+      this.connection = db;
+      return Promise.resolve(db);
+    } catch (error) {
+      throw(error);
+    }
   }
 
   public async close() {
-    this.connection = null;
+    if(this.connection){
+      const db = await this.connection;
+      db.close();
+      this.connection = null;
+    }
   }
 
   public query: (typeof AbstractDriver)['prototype']['query'] = async (query, opt = {}) => {
     const db = await this.open();
     const { requestId } = opt;
     let resultsAgg: NSDatabase.IResult[] = [];
-      const rows = await db.all(query);
+      const rows = await db.all(query.toString());
       const messages = [];
       resultsAgg.push(<NSDatabase.IResult>{
         requestId,
@@ -66,12 +71,24 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
   public async testConnection() {
     await this.open();
     await this.query('SELECT 1', {});
+    await this.close();
   }
 
   public async getChildrenForItem({ item, parent }: Arg0<IConnectionDriver['getChildrenForItem']>) {
     switch (item.type) {
       case ContextValue.CONNECTION:
       case ContextValue.CONNECTED_CONNECTION:
+        const results = await this.queryResults(this.queries.fetchDatabases());
+        return results.map(database => ({
+          ...database,
+          label: database['database_name'],
+          database: database['database_name'],
+          schema: null,
+          type: ContextValue.DATABASE
+        }));
+        case ContextValue.DATABASE:
+          return this.queryResults(this.queries.fetchSchemas(item as NSDatabase.IDatabase));
+        case ContextValue.SCHEMA:
         return <MConnectionExplorer.IChildItem[]>[
           { label: 'Tables', type: ContextValue.RESOURCE_GROUP, iconId: 'folder', childType: ContextValue.TABLE },
           { label: 'Views', type: ContextValue.RESOURCE_GROUP, iconId: 'folder', childType: ContextValue.VIEW },

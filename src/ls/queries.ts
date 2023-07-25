@@ -3,6 +3,25 @@ import queryFactory from '@sqltools/base-driver/dist/lib/factory';
 
 /** write your queries here go fetch desired data. This queries are just examples copied from SQLite driver */
 
+const fetchDatabases: IBaseQueries['fetchDatabases'] = queryFactory`
+select 
+    table_catalog as "database_name"
+from information_schema.tables
+group by 1
+`;
+
+const fetchSchemas: IBaseQueries['fetchSchemas'] = queryFactory`
+SELECT 
+  table_catalog as "database",
+  table_schema AS "label",
+  table_schema AS "schema",
+  '${ContextValue.SCHEMA}' as type,
+  'group-by-ref-type' as iconId
+FROM information_schema.tables
+where database = '${p => p.database}'
+group by 1,2
+`;
+
 const describeTable: IBaseQueries['describeTable'] = queryFactory`
   SELECT C.*
   FROM pragma_table_info('${p => p.label}') AS C
@@ -35,14 +54,28 @@ SELECT count(1) AS total
 FROM ${p => (p.table.label || p.table)};
 `;
 
-const fetchTablesAndViews = (type: ContextValue, tableType = 'table'): IBaseQueries['fetchTables'] => queryFactory`
-SELECT name AS label,
+// const fetchTablesAndViews = (type: ContextValue, tableType = 'table'): IBaseQueries['fetchTables'] => queryFactory`
+// SELECT name AS label,
+//   '${type}' AS type
+// FROM sqlite_master
+// WHERE LOWER(type) LIKE '${tableType.toLowerCase()}'
+//   AND name NOT LIKE 'sqlite_%'
+// ORDER BY name
+// `;
+
+const fetchTablesAndViews = (type: ContextValue, tableType = 'base table'): IBaseQueries['fetchTables'] => queryFactory`
+SELECT 
+  table_name AS label,
   '${type}' AS type
-FROM sqlite_master
-WHERE LOWER(type) LIKE '${tableType.toLowerCase()}'
-  AND name NOT LIKE 'sqlite_%'
-ORDER BY name
+FROM information_schema.tables
+WHERE LOWER(table_type) LIKE '${tableType.toLowerCase()}'
+  AND table_catalog = '${p => (p.database)}'
+  --AND table_schema = '${p => (p.schema)}'
+ORDER BY label
 `;
+
+
+
 
 const fetchTables: IBaseQueries['fetchTables'] = fetchTablesAndViews(ContextValue.TABLE);
 const fetchViews: IBaseQueries['fetchTables'] = fetchTablesAndViews(ContextValue.VIEW , 'view');
@@ -87,6 +120,8 @@ export default {
   fetchRecords,
   fetchTables,
   fetchViews,
+  fetchSchemas,
+  fetchDatabases,
   searchTables,
   searchColumns
 }
