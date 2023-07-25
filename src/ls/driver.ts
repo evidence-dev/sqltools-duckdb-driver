@@ -91,7 +91,7 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
         case ContextValue.SCHEMA:
         return <MConnectionExplorer.IChildItem[]>[
           { label: 'Tables', type: ContextValue.RESOURCE_GROUP, iconId: 'folder', childType: ContextValue.TABLE },
-          { label: 'Views', type: ContextValue.RESOURCE_GROUP, iconId: 'folder', childType: ContextValue.VIEW },
+          { label: 'Views', type: ContextValue.RESOURCE_GROUP, iconId: 'folder', childType: ContextValue.VIEW }
         ];
       case ContextValue.TABLE:
       case ContextValue.VIEW:

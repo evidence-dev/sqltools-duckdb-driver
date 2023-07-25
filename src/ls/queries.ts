@@ -36,7 +36,21 @@ SELECT
   C."notnull" AS isNullable,
   C.pk AS isPk,
   '${ContextValue.NO_CHILD}' as childType,
-  case when C.pk = 1 then 'pk' else null end as iconName,
+  case 
+    WHEN C.type IN ('BIGINT', 'INT8', 'LONG', 'SMALLINT', 'INT2', 'SHORT', 'TINYINT', 'HUGEINT', 'UBIGINT', 'UINTEGER', 'USMALLINT', 'UTINYINT', 'INTEGER', 'INT4', 'INT', 'SIGNED') THEN 'symbol-number'
+    WHEN C.type IN ('DOUBLE', 'FLOAT8', 'NUMERIC', 'DECIMAL', 'REAL', 'FLOAT4', 'FLOAT') OR C.type LIKE 'DECIMAL(%' THEN 'symbol-number'
+    WHEN C.type IN ('BIT', 'BITSTRING') THEN 'symbol-text'
+    WHEN C.type IN ('BOOLEAN', 'BOOL', 'LOGICAL') THEN 'symbol-boolean'
+    WHEN C.type IN ('BLOB', 'BYTEA', 'BINARY', 'VARBINARY') THEN 'symbol-binary'
+    WHEN C.type = 'DATE' THEN 'calendar'
+    WHEN C.type = 'TIME' THEN 'calendar'
+    WHEN C.type IN ('TIMESTAMP', 'DATETIME') THEN 'calendar'
+    WHEN C.type = 'TIMESTAMP WITH TIME ZONE' THEN 'calendar'
+    WHEN C.type = 'UUID' THEN 'symbol-u'
+    WHEN C.type IN ('VARCHAR', 'CHAR', 'BPCHAR', 'TEXT', 'STRING') THEN 'symbol-text'
+  ELSE 'null'
+    end as iconId,
+  C.type AS detail,
   '${ContextValue.COLUMN}' as type
 FROM pragma_table_info('${p => p.label}') AS C
 ORDER BY cid ASC
