@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# <img src="docs/images/duckdb-logo.png"  style="height:1em;"/> SQLTools for DuckDB 
+# <img src="https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/icons/duckdb-logo.png?raw=true"  style="height:1em;"/> SQLTools for DuckDB 
 
 Query and explore [DuckDB](https://duckdb.org/) databases in VSCode.
 ## Latest DuckDB Support: v0.8.1
@@ -12,7 +12,7 @@ This driver is maintained by [Evidence](https://evidence.dev): Publish BI report
 ## Features
 
 - Latest DuckDB support (currently 0.8.1)
-- **Connect** to a local,  in-memory or MotherDuck (via service token) DuckDB instance
+- **Connect** to a local, in-memory or MotherDuck (via service token) DuckDB instance
 - **Run queries** against a DuckDB instance
 - **Explore DB** tables and columns in the sidebar
 - **View** table results by selecting them in the sidebar
@@ -20,20 +20,20 @@ This driver is maintained by [Evidence](https://evidence.dev): Publish BI report
 
 ### Connect Local and In-Memory DBs
 
-![Connect Local DB](docs/images/connect-local-db.gif)
+![Connect Local DB](https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/docs/images/connect-local-db.gif?raw=true)
 
-![Connect In-Memory DB](docs/images/connect-in-memory-db.gif)
+![Connect In-Memory DB](https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/docs/images/connect-in-memory-db.gif?raw=true)
 ### Run Query
 
-![Run Query](docs/images/run-query.gif)
+![Run Query](https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/docs/images/run-query.gif?raw=true)
 
 ### Explore DB
 
-![Explore DB](docs/images/explore-db.gif)
+![Explore DB](https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/docs/images/explore-db.gif?raw=true)
 
 ### Autocomplete
 
-![Autocomplete](docs/images/autocomplete.gif)
+![Autocomplete](https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/docs/images/autocomplete.gif?raw=true)
 
 ## Not Supported
 - Loading extensions not included in the [default Node.js installation](#DuckDB-Extensions-Supported)
@@ -71,4 +71,4 @@ You should use the filename `md:?motherduck_token=<your token>` when connecting 
 - If you encounter bugs or have feature requests, feel free to open an issue.
 - PRs welcome
 
-### Maintained by [<img src="docs/images/evidence.png"  style="height:1em;"/>](https://www.evidence.dev)
+### Maintained by [<img src="https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/docs/images/evidence.png?raw=true"  style="height:1em;"/>](https://www.evidence.dev)

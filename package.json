@@ -15,16 +15,18 @@
   "bugs": {
     "url": "https://github.com/evidence-dev/sqltools-duckdb-driver/issues"
   },
-  "icon": "docs/images/duckdb-logo.png",
+  "icon": "icons/duckdb-logo.png",
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "package": "vsce package",
+    "package": "vsce package --allow-star-activation",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./"
   },
    "keywords": [
     "sqltools-driver",
-    "duckdb"
+    "duckdb",
+    "motherduck",
+    "sqltools"
   ],
   "categories": [
     "Programming Languages",
