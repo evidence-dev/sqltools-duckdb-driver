@@ -18,10 +18,9 @@
   "icon": "icons/duckdb-logo.png",
   "scripts": {
     "package": "vsce package --allow-star-activation",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "webpack": "webpack",
-    "tsup": "tsup src/extension.ts src/ls/plugin.ts -d out --external=vscode"
+    "compile": "tsup src/extension.ts src/ls/plugin.ts -d out --external=vscode",
+    "publish": "vsce publish"
+    
   },
   "keywords": [
     "sqltools-driver",

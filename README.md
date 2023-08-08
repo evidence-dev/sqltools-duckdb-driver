@@ -1,11 +1,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# <img src="https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/icons/duckdb-logo.png?raw=true"  style="height:1em;"/> SQLTools for DuckDB 
+# <img src="https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/icons/default.png?raw=true"  style="height:1em;"/> SQLTools for DuckDB 
 
 Query and explore [DuckDB](https://duckdb.org/) databases in VSCode.
 ## Latest DuckDB Support: v0.8.1
 
-A VSCode extension which extends [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools), with a driver for DuckDB.
+A VSCode extension that extends [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools), with a driver for DuckDB.
 
 This driver is maintained by [Evidence](https://evidence.dev): Publish BI reports with just SQL and Markdown.
 
