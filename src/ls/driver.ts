@@ -2,11 +2,10 @@ import AbstractDriver from '@sqltools/base-driver';
 import queries from './queries';
 import { IConnectionDriver, MConnectionExplorer, NSDatabase, ContextValue, Arg0 } from '@sqltools/types';
 import { v4 as generateId } from 'uuid';
-import { Database, OPEN_READONLY, OPEN_READWRITE  } from 'duckdb-async';
 import keywordsCompletion from './keywords';
 
 
-type DriverLib = Database // fix this later?
+type DriverLib = any // fix this later?
 type DriverOptions = any;
 
 
@@ -25,7 +24,8 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
 
   queries = queries;  
 
-  public async open(): Promise<Database> {
+  public async open(): Promise<typeof Database> {
+    const { Database, OPEN_READONLY, OPEN_READWRITE } = this.requireDep('duckdb-async')
     if (this.connection) {
       return this.connection;
     }  

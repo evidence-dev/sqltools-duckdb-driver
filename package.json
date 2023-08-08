@@ -17,10 +17,11 @@
   },
   "icon": "icons/duckdb-logo.png",
   "scripts": {
-    "vscode:prepublish": "npm run compile",
     "package": "vsce package --allow-star-activation",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "webpack": "webpack",
+    "tsup": "tsup src/extension.ts src/ls/plugin.ts -d out --external=vscode"
   },
   "keywords": [
     "sqltools-driver",
@@ -44,15 +45,17 @@
   ],
   "main": "./out/extension.js",
   "dependencies": {
-    "@sqltools/base-driver": "latest",
-    "@sqltools/types": "latest",
-    "uuid": "^7.0.2",
     "duckdb-async": "0.8.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.5.5",
+    "@mapbox/node-pre-gyp": "^1.0.11",
+    "@sqltools/base-driver": "latest",
+    "@sqltools/types": "latest",
     "@types/node": "^14.0.9",
     "@types/vscode": "^1.42.0",
-    "typescript": "^5.0.0"
+    "tsup": "^7.2.0",
+    "typescript": "^5.0.0",
+    "uuid": "^7.0.2"
   }
 }
