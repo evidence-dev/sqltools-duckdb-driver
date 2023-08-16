@@ -52,14 +52,20 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
     const { requestId } = opt;
     let resultsAgg: NSDatabase.IResult[] = [];
       const rows = await db.all(query.toString());
-      const messages = [];
+      var messages = [];
+      if (rows.length === 0) {
+        messages = ['Query executed successfully with, no results were returned.'];
+        }
+      else {
+        messages = ["Successfully returned " + rows.length + " rows." ];
+        }
       resultsAgg.push(<NSDatabase.IResult>{
         requestId,
         resultId: generateId(),
         connId: this.getId(),
         cols: rows && rows.length ? Object.keys(rows[0]) : [],
         messages,
-        query: query[0], // hack
+        query: query,
         results: rows,
       });
     return resultsAgg;
