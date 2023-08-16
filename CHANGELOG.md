@@ -1,6 +1,10 @@
 # Change Log
 
 
+## 0.0.3
+- Add support for Read/Write connections
+- Minor improvements to output messages
+
 ## 0.0.2
 - Minor fixes to docs
 
