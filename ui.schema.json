@@ -1,4 +1,8 @@
 {
   "ui:order": ["database"],
-  "databaseFilePath": { "ui:widget": "file" }
+  "databaseFilePath": { "ui:widget": "file" },
+  "accessMode": {
+    "ui:help": "Warning: Read/Write connections prevent any other connections until they are closed"
+  }
+
 }

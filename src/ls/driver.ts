@@ -30,10 +30,9 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
       return this.connection;
     }  
     try {
-      // const mode = this.credentials.databaseFilePath !== ':memory:' ? OPEN_READONLY : OPEN_READWRITE;  
       var mode = null;
       
-      if( this.credentials.readWrite || this.credentials.databaseFilePath === ':memory:') {
+      if( this.credentials.accessMode === "Read/Write" || this.credentials.databaseFilePath === ':memory:') {
         mode = OPEN_READWRITE;
       } else {
         mode = OPEN_READONLY;
@@ -61,7 +60,7 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
       const rows = await db.all(query.toString());
       var messages = [];
       if (rows.length === 0) {
-        messages = ['Query executed successfully with, no results were returned.'];
+        messages = ['Query executed successfully, no results returned.'];
         }
       else {
         messages = ["Successfully returned " + rows.length + " rows." ];

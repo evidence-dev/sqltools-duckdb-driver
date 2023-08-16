@@ -17,6 +17,7 @@ This driver is maintained by [Evidence](https://evidence.dev): Publish BI report
 - **Explore DB** tables and columns in the sidebar
 - **View** table results by selecting them in the sidebar
 - **Autocomplete** for common keywords (e.g. SELECT, FROM, WHERE) and table names
+- **Read/Write** connections
 
 ### Connect Local and In-Memory DBs
 
@@ -34,6 +35,16 @@ This driver is maintained by [Evidence](https://evidence.dev): Publish BI report
 ### Autocomplete
 
 ![Autocomplete](https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/docs/images/autocomplete.gif?raw=true)
+
+### Read/Write Connections
+
+DuckDB has two access modes:
+1. **Read/Write:** One process can both read and write to the database.
+2. **Read Only:** Multiple processes can read from the database, but no processes can write. 
+
+If you open another connection to a database that is already open in read/write mode, you may get an error. Close the read/write connection to resolve this.
+
+[More Info](https://duckdb.org/faq#how-does-duckdb-handle-concurrency)
 
 ## Not Supported
 - Loading extensions not included in the [default Node.js installation](#DuckDB-Extensions-Supported)
