@@ -30,7 +30,14 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
       return this.connection;
     }  
     try {
-      const mode = this.credentials.databaseFilePath !== ':memory:' ? OPEN_READONLY : OPEN_READWRITE;  
+      // const mode = this.credentials.databaseFilePath !== ':memory:' ? OPEN_READONLY : OPEN_READWRITE;  
+      var mode = null;
+      
+      if( this.credentials.readWrite || this.credentials.databaseFilePath === ':memory:') {
+        mode = OPEN_READWRITE;
+      } else {
+        mode = OPEN_READONLY;
+      }
       const db = Database.create(this.credentials.databaseFilePath, mode);
       this.connection = db;
       return Promise.resolve(db);

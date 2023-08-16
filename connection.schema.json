@@ -12,6 +12,12 @@
       "title": "Database file",
       "type": "string",
       "minLength": 1
+    },
+    "readWrite": {
+      "title": "Enable Read/Write",
+      "type": "boolean",
+      "default": false,
+      "description": "Note: Read/Write connections prevent other connections until they are closed."
     }
   }
 }
