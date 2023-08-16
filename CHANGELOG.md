@@ -1,5 +1,9 @@
 # Change Log
 
+
+## 0.0.2
+- Minor fixes to docs
+
 ## 0.0.1 
 - v0.8.1 DuckDB support
 - Connect to DuckDB instance
