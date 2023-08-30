@@ -84,7 +84,7 @@ SELECT
 FROM information_schema.tables
 WHERE LOWER(table_type) LIKE '${tableType.toLowerCase()}'
   AND table_catalog = '${p => (p.database)}'
-  --AND table_schema = '${p => (p.schema)}'
+  AND table_schema = '${p => (p.schema)}'
 ORDER BY label
 `;
 
