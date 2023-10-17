@@ -44,11 +44,11 @@ SELECT
     WHEN C.type IN ('BLOB', 'BYTEA', 'BINARY', 'VARBINARY') THEN 'symbol-binary'
     WHEN C.type = 'DATE' THEN 'calendar'
     WHEN C.type = 'TIME' THEN 'calendar'
-    WHEN C.type IN ('TIMESTAMP', 'DATETIME') THEN 'calendar'
+    WHEN C.type IN ('TIMESTAMP', 'DATETIME', 'TIMESTAMP_NS') THEN 'calendar'
     WHEN C.type = 'TIMESTAMP WITH TIME ZONE' THEN 'calendar'
     WHEN C.type = 'UUID' THEN 'symbol-u'
     WHEN C.type IN ('VARCHAR', 'CHAR', 'BPCHAR', 'TEXT', 'STRING') THEN 'symbol-text'
-  ELSE 'null'
+  ELSE 'symbol-constant'
     end as iconId,
   C.type AS detail,
   '${ContextValue.COLUMN}' as type
