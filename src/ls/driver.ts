@@ -53,11 +53,28 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
     }
   }
 
+  private convertBigIntToNumber(value: any): any {
+    if (typeof value === 'bigint') {
+        return Number(value);
+    }
+    return value;
+  }
+
+  private normalizeRows(rawRows) {
+    return rawRows.map((row) => {
+      for (const key in row) {
+        row[key] = this.convertBigIntToNumber(row[key]);
+      }
+      return row;
+    });
+  }
+  
   public query: (typeof AbstractDriver)['prototype']['query'] = async (query, opt = {}) => {
     const db = await this.open();
     const { requestId } = opt;
     let resultsAgg: NSDatabase.IResult[] = [];
-      const rows = await db.all(query.toString());
+      const rawRows = await db.all(query.toString());
+      const rows = this.normalizeRows(rawRows);
       var messages = [];
       if (rows.length === 0) {
         messages = ['Query executed successfully, no results returned.'];
