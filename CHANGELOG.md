@@ -1,5 +1,7 @@
 # Change Log
 
+## 0.0.5 
+- v0.9.1 DuckDB support
 
 ## 0.0.3
 - Add support for Read/Write connections
