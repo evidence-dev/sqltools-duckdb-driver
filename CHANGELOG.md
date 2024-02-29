@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.0.6
+- v0.10.0 DuckDB support
+
 ## 0.0.5 
 - v0.9.1 DuckDB support
 
