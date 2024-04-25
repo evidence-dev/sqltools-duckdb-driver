@@ -1736,17 +1736,17 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-duckdb-async@0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/duckdb-async/-/duckdb-async-0.10.0.tgz#62740575d4182e94d937def9f5a7545859ed33d3"
-  integrity sha512-YMDYulx5JLzT01CkqfG813h3ikCF3Pf7nV2xH1OZdVB6q0A6Rofrtf0x1CIotXY33fifgFY1jte3WPzD+3708Q==
+duckdb-async@0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/duckdb-async/-/duckdb-async-0.10.2.tgz#4abbcceabbc459da12b7fb7cb6970245a34a632b"
+  integrity sha512-Lf9MSnfcflyo8lpOfhDTOGsqkKeippJm2RZzry9sOG2Kvz+pDfLMuqhWQ4CQayud+Ktfs1L8DsrTIAsUCmbTlA==
   dependencies:
-    duckdb "0.10.0"
+    duckdb "0.10.2"
 
-duckdb@0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/duckdb/-/duckdb-0.10.0.tgz#91312cc5f2277df529fa71423838f92f4e9bb2e7"
-  integrity sha512-+yVccZZTCYVHccKUUKeqCiQQ5/jggdnfyafN01Cgzzx2F0NSSSqNO9vT39oLmpIhEqsJIHYXVC/LuawN3AxUyA==
+duckdb@0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/duckdb/-/duckdb-0.10.2.tgz#a0a6c7d41487d566e2d524b81395151e0e1ca91c"
+  integrity sha512-7UGLRp+zkAzE0AQjyUfOyEjuX7Xs3St452+ZtUSbQEE8DJjc6GUWscxYPm5XPe5fX4nL+Zy9lVMEss1Yuw74kA==
   dependencies:
     "@mapbox/node-pre-gyp" "^1.0.0"
     node-addon-api "^7.0.0"
@@ -2925,7 +2925,16 @@ ssri@^10.0.0:
   dependencies:
     minipass "^7.0.3"
 
-"string-width-cjs@npm:string-width@^4.2.0", "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0":
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
+  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
+  dependencies:
+    emoji-regex "^8.0.0"
+    is-fullwidth-code-point "^3.0.0"
+    strip-ansi "^6.0.1"
+
+"string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.1.0, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -2950,7 +2959,14 @@ string_decoder@^1.1.1:
   dependencies:
     safe-buffer "~5.2.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
+  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
+  dependencies:
+    ansi-regex "^5.0.1"
+
+strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
