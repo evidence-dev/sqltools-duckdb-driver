@@ -4,15 +4,15 @@
 
 Query and explore [DuckDB](https://duckdb.org/) databases in VSCode.
 
-## Install
-
-Install from the [VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=Evidence.sqltools-duckdb-driver).
-
 ## Latest DuckDB Support: v0.10.2
 
 A VSCode extension that extends [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools), with a driver for DuckDB.
 
 This driver is maintained by [Evidence](https://evidence.dev): Publish BI reports with just SQL and Markdown.
+
+## Install
+
+Install from the [VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=Evidence.sqltools-duckdb-driver).
 
 ## Features
 
