@@ -1,6 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# <img src="https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/icons/default.png?raw=true"  style="height:1em;"/> SQLTools for DuckDB 
+# <img src="https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/icons/default.png?raw=true"  style="height:1em;"/> VS Code SQLTools for DuckDB 
 
 Query and explore [DuckDB](https://duckdb.org/) databases in VSCode.
 
