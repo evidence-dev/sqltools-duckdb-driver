@@ -19,7 +19,7 @@ export default class DuckDBDriver extends AbstractDriver<DriverLib, DriverOption
   public readonly deps: typeof AbstractDriver.prototype['deps'] = [{
     type: AbstractDriver.CONSTANTS.DEPENDENCY_PACKAGE,
     name: 'duckdb-async',
-    version: '0.10.0',
+    version: '0.10.2',
   }];
 
   queries = queries;  
