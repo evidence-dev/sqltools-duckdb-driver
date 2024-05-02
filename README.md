@@ -3,6 +3,11 @@
 # <img src="https://github.com/evidence-dev/sqltools-duckdb-driver/blob/master/icons/default.png?raw=true"  style="height:1em;"/> SQLTools for DuckDB 
 
 Query and explore [DuckDB](https://duckdb.org/) databases in VSCode.
+
+## Install
+
+Install from the [VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=Evidence.sqltools-duckdb-driver).
+
 ## Latest DuckDB Support: v0.10.2
 
 A VSCode extension that extends [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools), with a driver for DuckDB.
