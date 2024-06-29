@@ -2,7 +2,7 @@
   "name": "sqltools-duckdb-driver",
   "displayName": "DuckDB Driver for SQLTools",
   "description": "Latest DuckDB support: Run queries and explore your DuckDB Database in VSCode",
-  "version": "0.10.2",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.87.0"
   },
@@ -43,7 +43,7 @@
   ],
   "main": "./out/extension.js",
   "dependencies": {
-    "duckdb-async": "0.10.2"
+    "duckdb-async": "1.0.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.0",

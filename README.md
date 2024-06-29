@@ -4,7 +4,7 @@
 
 Query and explore [DuckDB](https://duckdb.org/) databases in VSCode.
 
-## Latest DuckDB Support: v0.10.2
+## Latest DuckDB Support: v1.0.0
 
 A VSCode extension that extends [SQLTools](https://marketplace.visualstudio.com/items?itemName=mtxr.sqltools), with a driver for DuckDB.
 
@@ -16,7 +16,7 @@ Install from the [VSCode Marketplace](https://marketplace.visualstudio.com/items
 
 ## Features
 
-- Latest DuckDB support (currently 0.10.2)
+- Latest DuckDB support (currently 1.0.0)
 - **Connect** to a local, in-memory or MotherDuck (via service token) DuckDB instance
 - **Run queries** against a DuckDB instance
 - **Explore DB** tables and columns in the sidebar
