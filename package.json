@@ -50,7 +50,7 @@
     "@mapbox/node-pre-gyp": "^1.0.11",
     "@sqltools/base-driver": "latest",
     "@sqltools/types": "latest",
-    "@types/node": "^20.11.23",
+    "@types/node": "^22.6.1",
     "@types/vscode": "^1.87.0",
     "esbuild": "^0.20.1",
     "tsup": "^8.0.2",
