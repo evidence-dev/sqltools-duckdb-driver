@@ -56,6 +56,6 @@
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
     "uuid": "^9.0.1",
-    "@vscode/vsce": "2.26.0"
+    "@vscode/vsce": "3.1.1"
   }
 }
