@@ -1,7 +1,16 @@
-import { IBaseQueries, ContextValue } from '@sqltools/types';
+import { IBaseQueries, ContextValue, NSDatabase } from '@sqltools/types';
 import queryFactory from '@sqltools/base-driver/dist/lib/factory';
 
 /** write your queries here go fetch desired data. This queries are just examples copied from SQLite driver */
+
+function escapeTableName(table: Partial<NSDatabase.ITable> | string) {
+  let items: string[] = [];
+  let tableObj = typeof table === 'string' ? <NSDatabase.ITable>{ label: table } : table;
+  tableObj.database && items.push(`"${tableObj.database}"`);
+  tableObj.schema && items.push(`"${tableObj.schema}"`); 
+  items.push(`"${tableObj.label}"`);
+  return items.join('.');
+}
 
 const fetchDatabases: IBaseQueries['fetchDatabases'] = queryFactory`
 select 
@@ -24,7 +33,7 @@ group by 1,2
 
 const describeTable: IBaseQueries['describeTable'] = queryFactory`
   SELECT C.*
-  FROM pragma_table_info('${p => p.label}') AS C
+  FROM pragma_table_info('${p => escapeTableName({database: p.database, schema: p.schema, label: p.label })}') AS C
   ORDER BY C.cid ASC
 `;
 
@@ -52,30 +61,21 @@ SELECT
     end as iconId,
   C.type AS detail,
   '${ContextValue.COLUMN}' as type
-FROM pragma_table_info('${p => p.label}') AS C
+FROM pragma_table_info('${p => escapeTableName({database: p.database, schema: p.schema, label: p.label })}') AS C
 ORDER BY cid ASC
 `;
 
 const fetchRecords: IBaseQueries['fetchRecords'] = queryFactory`
 SELECT *
-FROM ${p => (p.table.label || p.table)}
+FROM ${p => escapeTableName(p.table)}
 LIMIT ${p => p.limit || 50}
 OFFSET ${p => p.offset || 0};
 `;
 
 const countRecords: IBaseQueries['countRecords'] = queryFactory`
 SELECT count(1) AS total
-FROM ${p => (p.table.label || p.table)};
+FROM ${p => escapeTableName(p.table)};
 `;
-
-// const fetchTablesAndViews = (type: ContextValue, tableType = 'table'): IBaseQueries['fetchTables'] => queryFactory`
-// SELECT name AS label,
-//   '${type}' AS type
-// FROM sqlite_master
-// WHERE LOWER(type) LIKE '${tableType.toLowerCase()}'
-//   AND name NOT LIKE 'sqlite_%'
-// ORDER BY name
-// `;
 
 const fetchTablesAndViews = (type: ContextValue, tableType = 'base table'): IBaseQueries['fetchTables'] => queryFactory`
 SELECT 
@@ -87,9 +87,6 @@ WHERE LOWER(table_type) LIKE '${tableType.toLowerCase()}'
   AND table_schema = '${p => (p.schema)}'
 ORDER BY label
 `;
-
-
-
 
 const fetchTables: IBaseQueries['fetchTables'] = fetchTablesAndViews(ContextValue.TABLE);
 const fetchViews: IBaseQueries['fetchTables'] = fetchTablesAndViews(ContextValue.VIEW , 'view');
